@@ -3,7 +3,7 @@ import torch.nn as nn
 from collections import OrderedDict
 
 
-class BigEncoder(nn.Module):
+class Encoder(nn.Module):
     def __init__(self, classifier):
         super().__init__()
         self.encoder = Convnet(classifier)
@@ -19,7 +19,6 @@ class Convnet(nn.Module):
         
         assert classifier in ['conv', 'fc', 'glob']
         self.classifier = classifier
-
 
         self.layers = nn.Sequential(OrderedDict([
                             ('layer0', self.make_conv_layer(3, 64)),
@@ -55,18 +54,16 @@ class Convnet(nn.Module):
                                           ('ReLU', relu)]))
 
     def forward(self, x):
-        out = self.layers(x)
-        return out
-        # x = self.layer0(x)
-        # x = self.layer1(x)
-        # x = self.layer2(x)
-        # if self.classifier == 'conv':
-        #     return x
-        # x = self.layer3(x)
-        # if self.classifier == 'fc':
-        #     return x
-        # x = self.layer4(x)
-        # return x
+        x = self.layers.layer0(x)
+        x = self.layers.layer1(x)
+        x = self.layers.layer2(x)
+        if self.classifier == 'conv':
+            return x
+        x = self.layers.layer3(x)
+        if self.classifier == 'fc':
+            return x
+        x = self.layers.layer4(x)
+        return x
 
 
 class View(torch.nn.Module):
@@ -92,9 +89,11 @@ class View(torch.nn.Module):
 
 if __name__ == '__main__':
     classifier = 'conv'
-    encoder = BigEncoder(classifier)
+    encoder = Encoder(classifier)
     encoder.load_state_dict(torch.load('./models/dim_local_dv_encoder.pth'))
     print(encoder)
+    # encoder = encoder.encoder
+    # print(encoder)
 
     # import torch.optim as optim
     # classifier = 'conv'
@@ -102,8 +101,9 @@ if __name__ == '__main__':
     # # encoder.load_state_dict(torch.load('./models/dim_local_dv_encoder.pth'))
     # optimizer = optim.Adam(encoder.parameters())
     # optimizer.zero_grad()
-    # x = torch.randn(1, 3, 32, 32, requires_grad=True)
-    # out = encoder(x)
+    x = torch.randn(1, 3, 32, 32, requires_grad=True)
+    out = encoder(x)
+    print(out.shape)
     # criterion = nn.L1Loss()
     # t = torch.ones(out.shape)
     # loss = criterion(out, t)
