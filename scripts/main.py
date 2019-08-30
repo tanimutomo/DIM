@@ -5,7 +5,11 @@
 import argparse
 from argparse import RawTextHelpFormatter
 import logging
+import os
 import sys
+
+base = os.path.join(os.path.dirname(os.path.abspath(__file__)), '../')
+sys.path.append(base)
 
 from cortex.main import run
 
