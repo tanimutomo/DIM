@@ -46,9 +46,15 @@ RUN ${PIP} install jupyter jupyterlab
 WORKDIR /app
 COPY . /app
 
-RUN ${PIP} install --trusted-host pypi.python.org -r docker/gpu_requirements.txt
+RUN ${PIP} install --trusted-host pypi.python.org -r gpu_requirements.txt
 
-RUN cd cortex && \
+RUN git clone https://github.com/rdevon/cortex.git && \
+    cd cortex && \
+    git checkout dev && \
     ${PIP} install .
 
-RUN ${PIP} install .
+RUN git clone https://github.com/rdevon/DIM.git && \
+    cd DIM && \
+    ${PIP} install .
+
+CMD ["cortex", "setup"]
