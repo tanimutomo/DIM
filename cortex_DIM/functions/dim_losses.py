@@ -10,7 +10,7 @@ import torch.nn.functional as F
 from cortex_DIM.functions.gan_losses import get_positive_expectation, get_negative_expectation
 
 
-def fenchel_dual_loss(l, m, measure=None):
+def fenchel_dual_loss(l, m, measure=None, neg=False):
     '''Computes the f-divergence distance between positive and negative joint distributions.
 
     Note that vectors should be sent as 1x1.
@@ -56,7 +56,10 @@ def fenchel_dual_loss(l, m, measure=None):
     E_neg = (E_neg * n_mask).sum() / n_mask.sum()
     loss = E_neg - E_pos
 
-    return loss
+    if neg:
+        return - loss
+    else:
+        return loss
 
 
 def infonce_loss(l, m):

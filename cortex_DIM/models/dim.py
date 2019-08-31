@@ -53,6 +53,9 @@ def compute_dim_loss(l_enc, m_enc, measure, mode):
 
     if mode == 'fd':
         loss = fenchel_dual_loss(l_enc, m_enc, measure=measure)
+    elif mode == 'fd_neg':
+        loss = fenchel_dual_loss(l_enc, m_enc, measure=measure,
+                                 neg=True)
     elif mode == 'nce':
         loss = infonce_loss(l_enc, m_enc)
     elif mode == 'dv':
