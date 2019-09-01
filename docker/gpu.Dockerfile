@@ -48,9 +48,9 @@ COPY . /app
 
 RUN ${PIP} install --trusted-host pypi.python.org -r gpu_requirements.txt
 
-RUN git clone https://github.com/rdevon/cortex.git && \
+RUN git clone https://github.com/tanimutomo/cortex.git && \
     cd cortex && \
-    git checkout dev && \
+    git checkout fix/install && \
     ${PIP} install .
 
 RUN git clone https://github.com/tanimutomo/DIM.git && \
