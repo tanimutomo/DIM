@@ -34,6 +34,14 @@ elif [ "$2" = "neg-local" ]; then
 elif [ "$2" = "neg-half-local" ]; then
   mode="glob local classifier"
   options="--t.epochs 1000 --local.mode fd_neg --local.scale 0.5"
+
+elif [ "$2" = "glob-local" ]; then
+  mode="glob local classifier"
+  options="--t.epochs 1000"
+
+elif [ "$2" = "glob-half-local" ]; then
+  mode="glob local classifier"
+  options="--t.epochs 1000 --local.scale 0.5"
 fi
 
 
