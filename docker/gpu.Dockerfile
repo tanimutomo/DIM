@@ -53,7 +53,7 @@ RUN git clone https://github.com/rdevon/cortex.git && \
     git checkout dev && \
     ${PIP} install .
 
-RUN git clone https://github.com/rdevon/DIM.git && \
+RUN git clone https://github.com/tanimutomo/DIM.git && \
     cd DIM && \
     ${PIP} install .
 
